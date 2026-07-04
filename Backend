@@ -1,0 +1,119 @@
+import React from "react";
+import { BrowserRouter, Routes, Route, Navigate, Link } from "react-router-dom";
+
+// Context providers
+import { LanguageProvider } from "./context/LanguageContext";
+import { AuthProvider } from "./context/AuthContext";
+import { PropertiesProvider } from "./context/PropertiesContext";
+
+// Components
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+import ToastContainer from "./components/ToastContainer";
+import AiFloatingAssistant from "./components/AiFloatingAssistant";
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyAbVcdOYvZqUMDY54GTPoxucGMN1Svz6nc",
+  authDomain: "sahibhoomi-58941.firebaseapp.com",
+  projectId: "sahibhoomi-58941",
+  storageBucket: "sahibhoomi-58941.firebasestorage.app",
+  messagingSenderId: "713465574074",
+  appId: "1:713465574074:web:567eabdd11439481d98883",
+  measurementId: "G-MFMF7RNL6F"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+// Pages
+import Home from "./pages/Home";
+import Search from "./pages/Search";
+import PropertyDetail from "./pages/PropertyDetail";
+import PostProperty from "./pages/PostProperty";
+import AuthLanding from "./pages/AuthLanding";
+import LoginBuyerSeller from "./pages/LoginBuyerSeller";
+import BrokerSignup from "./pages/BrokerSignup";
+import UserProfilePage from "./pages/UserProfilePage";
+import FullAiChat from "./pages/FullAiChat";
+import AdminLogin from "./pages/AdminLogin";
+import AdminDashboard from "./pages/AdminDashboard";
+
+// Custom Hindi Friendly 404 Error Fallback
+function NotFoundPage() {
+  return (
+    <div className="flex-grow flex flex-col items-center justify-center py-24 text-center px-4 bg-bg-secondary select-none" id="404-error-page">
+      <span className="text-6xl mb-4">🛑</span>
+      <h1 className="text-2xl sm:text-3xl font-extrabold text-brand-blue font-hindi leading-snug">
+        पृष्ठ नहीं मिला (४०४ त्रुटि)
+      </h1>
+      <p className="text-xs text-text-muted font-bold mt-2 mb-8 uppercase tracking-widest">
+        Oops! The page you are looking for does not exist.
+      </p>
+      
+      <p className="text-sm font-semibold font-hindi text-text-primary max-w-md mb-8 bg-white p-4 rounded-xl border border-gray-100 shadow-sm leading-relaxed">
+        "माफ़ कीजियेगा, जो पेज आप ढूंढ रहे हैं वह हटा दिया गया है या उसका पता बदल गया है। कृपया मुख्य मेनू का उपयोग करें।"
+      </p>
+
+      <Link
+        to="/"
+        className="px-6 py-3 bg-brand-orange text-white text-xs font-bold rounded-lg shadow-md hover:scale-105 transition-all duration-200 uppercase"
+      >
+        वापस होम पेज पर जाएं / Back to Home
+      </Link>
+    </div>
+  );
+}
+
+export default function App() {
+  return (
+    <LanguageProvider>
+      <PropertiesProvider>
+        <AuthProvider>
+          <BrowserRouter>
+            <div className="flex flex-col min-h-screen bg-white text-text-primary selection:bg-orange-100">
+              
+              {/* Sticky Navbar */}
+              <Navbar />
+
+              {/* Toast Alerts Overlay */}
+              <ToastContainer />
+
+              {/* Main Routing Stage */}
+              <main className="flex-grow flex flex-col">
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/search" element={<Search />} />
+                  <Route path="/property/:id" element={<PropertyDetail />} />
+                  <Route path="/post-property" element={<PostProperty />} />
+                  <Route path="/auth" element={<AuthLanding />} />
+                  <Route path="/auth/buyer" element={<LoginBuyerSeller />} />
+                  <Route path="/auth/seller" element={<LoginBuyerSeller />} />
+                  <Route path="/auth/broker" element={<BrokerSignup />} />
+                  <Route path="/profile/:userId" element={<UserProfilePage />} />
+                  <Route path="/ai-chat" element={<FullAiChat />} />
+                  <Route path="/admin/login" element={<AdminLogin />} />
+                  <Route path="/admin" element={<AdminDashboard />} />
+                  <Route path="*" element={<NotFoundPage />} />
+                </Routes>
+              </main>
+
+              {/* Global Floating AI Assistant Bubble */}
+              <AiFloatingAssistant />
+
+              {/* Footer Panel */}
+              <Footer />
+
+            </div>
+          </BrowserRouter>
+        </AuthProvider>
+      </PropertiesProvider>
+    </LanguageProvider>
+  );
+}

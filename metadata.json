@@ -1,0 +1,6 @@
+{
+  "name": "Sahibhoomi",
+  "description": "Budaun district's premier transparent 1% commission property marketplace.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
